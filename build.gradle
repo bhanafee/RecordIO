@@ -1,0 +1,115 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+plugins {
+    id 'java-library'
+    id 'jvm-test-suite'
+    id 'maven-publish'
+    id 'jacoco'
+    alias(libs.plugins.spotless)
+    alias(libs.plugins.owasp.dependencycheck)
+}
+
+group = 'com.maybeitssquid'
+
+def baseVersion = '1.0.0'
+def timestamp = new Date().format("yyyyMMddHHmmss")
+version = "${baseVersion}-${timestamp}"
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
+    }
+    withSourcesJar()
+    withJavadocJar()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = libs.versions.release.get().toInteger()
+}
+
+dependencies {
+    constraints {
+        libs.bundles.security.patches.get().each {
+            add('implementation', it)
+        }
+    }
+}
+
+testing {
+    suites.test {
+        useJUnitJupiter(libs.versions.junit)
+    }
+}
+
+tasks.named('jacocoTestReport') {
+    dependsOn tasks.named('test')
+    reports {
+        html.required = true
+        xml.required = false
+    }
+}
+
+spotless {
+    java {
+        targetExclude 'src/*/java/module-info.java'
+        googleJavaFormat()
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+}
+
+dependencyCheck {
+    failBuildOnCVSS = 7
+}
+
+tasks.withType(Javadoc).configureEach {
+    options {
+        encoding = 'UTF-8'
+        links "https://docs.oracle.com/en/java/javase/${libs.versions.java.get()}/docs/api/"
+        addBooleanOption('html5', true)
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = 'GitHubPackages'
+            url = uri("https://maven.pkg.github.com/${System.env.GITHUB_REPOSITORY ?: 'bhanafee/RecordIO'}")
+            credentials {
+                username = System.env.USERNAME ?: System.env.GITHUB_ACTOR
+                password = System.env.TOKEN ?: System.env.GITHUB_TOKEN
+            }
+        }
+    }
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifactId = 'recordio'
+            pom {
+                name = 'RecordIO'
+                description = 'Composable record codecs for field-oriented I/O'
+                url = 'https://github.com/bhanafee/RecordIO'
+                licenses {
+                    license {
+                        name = 'Apache License, Version 2.0'
+                        url = 'https://www.apache.org/licenses/LICENSE-2.0'
+                    }
+                }
+                scm {
+                    url = 'https://github.com/bhanafee/RecordIO'
+                    connection = 'scm:git:git://github.com/bhanafee/RecordIO.git'
+                    developerConnection = 'scm:git:ssh://github.com/bhanafee/RecordIO.git'
+                }
+            }
+        }
+    }
+}
