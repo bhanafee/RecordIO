@@ -19,6 +19,10 @@ Composable record codecs for field-oriented I/O. Published to GitHub Packages as
 ./gradlew test --tests "com.maybeitssquid.recordio.ExampleTest"
 ```
 
+On Windows, use `gradlew.bat` (or `.\gradlew` in PowerShell).
+
+The build uses a Java 25 toolchain. Unlike the other projects (which target `release = "17"`), RecordIO deliberately compiles to Java 22 bytecode (`release = "22"`) because it requires Java 22 APIs/bytecode; its CI matrix is correspondingly narrower (it cannot run on Java 17 or 21).
+
 ## Architecture
 
 [TODO: describe the module structure and key design decisions]
