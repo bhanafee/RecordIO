@@ -9,7 +9,7 @@ Composable record codecs for field-oriented I/O.
 | Component | Version |
 |-----------|---------|
 | Java | 25 (toolchain; runs on 22+) |
-| Gradle | 9.5.1 |
+| Gradle | 9.6.1 |
 | JUnit | 6.1.0 |
 | JaCoCo | 0.8.14 |
 
