@@ -18,6 +18,6 @@ Composable record codecs for field-oriented I/O.
 - [Test Results](https://bhanafee.github.io/RecordIO/tests/)
 - [Coverage Report](https://bhanafee.github.io/RecordIO/coverage/)
 - [Code of Conduct](https://bhanafee.github.io/RecordIO/CODE_OF_CONDUCT.html)
-- [Claude Code Guidance](https://bhanafee.github.io/RecordIO/CLAUDE.html)
+- [Agents guidance](https://bhanafee.github.io/RecordIO/AGENTS.html)
 
 [![Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
