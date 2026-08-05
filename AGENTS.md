@@ -17,8 +17,6 @@ Composable record codecs for field-oriented I/O. Published to GitHub Packages as
 ./gradlew dependencyCheckAnalyze  # OWASP vulnerability scan (slow; fails at CVSS ≥ 7)
 ```
 
-On Windows, use `gradlew.bat` (or `.\gradlew` in PowerShell).
-
 Build uses Java 25 toolchain, compiles to Java 22 bytecode (`release = "22"`) — unlike other projects. Requires Java 22 APIs. CI tests on Java 22 and 25 only.
 
 ## Architecture
