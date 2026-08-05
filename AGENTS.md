@@ -9,19 +9,17 @@ Composable record codecs for field-oriented I/O. Published to GitHub Packages as
 ## Commands
 
 ```bash
-./gradlew build          # compile, test, spotless check, javadoc
-./gradlew test           # tests only
-./gradlew spotlessApply  # auto-format Java source (required before commit)
-./gradlew javadoc        # generate Javadoc
-./gradlew dependencyCheckAnalyze  # OWASP CVE scan (slow; fails build at CVSS >= 7)
-
-# Run a single test class
-./gradlew test --tests "com.maybeitssquid.recordio.ExampleTest"
+./gradlew build                   # compile, test, spotless check, javadoc
+./gradlew test                    # run tests
+./gradlew test --tests "..."      # run a single test class
+./gradlew spotlessApply           # auto-format (required before commit)
+./gradlew javadoc                 # generate Javadoc
+./gradlew dependencyCheckAnalyze  # OWASP vulnerability scan (slow; fails at CVSS ≥ 7)
 ```
 
 On Windows, use `gradlew.bat` (or `.\gradlew` in PowerShell).
 
-The build uses a Java 25 toolchain. Unlike the other projects (which target `release = "17"`), RecordIO deliberately compiles to Java 22 bytecode (`release = "22"`) because it requires Java 22 APIs/bytecode; its CI matrix is correspondingly narrower (it cannot run on Java 17 or 21).
+Build uses Java 25 toolchain, compiles to Java 22 bytecode (`release = "22"`) — unlike other projects. Requires Java 22 APIs. CI tests on Java 22 and 25 only.
 
 ## Architecture
 
@@ -34,6 +32,4 @@ Spotless enforces Google Java Format. Run `./gradlew spotlessApply` before commi
 
 ## Security patches
 
-Transitive CVE fixes go in `gradle/libs.versions.toml` as `patch-cve-XXXX-NNNNN` library
-entries, collected in the `security-patches` bundle. See the global codebase documentation for the
-full pattern.
+For CVE patch management, see the `gradle-security-patch` skill. Use `/gradle-security-patch` to pin a CVE fix in the version catalog.
