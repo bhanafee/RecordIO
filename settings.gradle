@@ -4,9 +4,13 @@ gradle.beforeProject { proj ->
     if (proj == proj.rootProject) {
         def tomlFile = new File(proj.rootDir, 'gradle/libs.versions.toml')
         tomlFile.eachLine { line ->
-            def matcher = line =~ /^patch-[a-z0-9-]+ = \{ module = "([^"]+)", version = \{ strictly = "[^"]+", prefer = "([^"]+)"/
+            def matcher = line =~ /^patch-[a-z0-9-]+ = \{ module = "([^"]+)", version = \{ strictly = "([^"]+)"(?:, prefer = "([^"]+)")?/
             if (matcher) {
-                proj.buildscript.dependencies.add('classpath', "${matcher[0][1]}:${matcher[0][2]}")
+                def module = matcher[0][1]
+                def strictVersion = matcher[0][2]
+                def preferVersion = matcher[0][3]
+                def version = preferVersion ?: strictVersion.replaceAll(/[\[\],)"]/, '').split(',')[0]
+                proj.buildscript.dependencies.add('classpath', "${module}:${version}")
             }
         }
     }
