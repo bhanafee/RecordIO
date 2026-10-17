@@ -22,6 +22,8 @@ Composable record codecs for field-oriented I/O. Published to GitHub Packages as
 ./gradlew dependencyCheckAnalyze  # OWASP vulnerability scan (slow; fails at CVSS ≥ 7)
 ```
 
+**NVD key (optional):** `dependencyCheckAnalyze` reads the key from the `NVD_API_KEY` environment variable or the `nvd.apiKey` Gradle property. With a key, it updates the NVD data live. Without one, it uses the local NVD cache and logs a warning. CI runs without a key, so it also uses the cache.
+
 **External dependencies:** Standalone library; no runtime dependencies beyond Java.
 
 Build uses Java 25 toolchain, compiles to Java 22 bytecode (`release = "22"`) — unlike other projects. Requires Java 22 APIs. CI tests on Java 22 and 25 only.
