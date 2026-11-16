@@ -6,7 +6,7 @@ java = "25"
 release = "22"
 
 # Plugin versions
-git-version = "5.1.0"
+git-version = "5.2.0"
 spotless = "8.+"
 owasp-dependencycheck = "13.+"
 
